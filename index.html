@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>DOM Practice</title>
+
     <style>
         .highlight {
             background-color: yellow;
@@ -17,7 +18,19 @@
             text-decoration: line-through;
             color: gray;
         }
+
+        .error {
+            border: 2px solid red;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 12px;
+            display: block;
+            margin-top: 4px;
+        }
     </style>
+
 </head>
 <body>
 
@@ -26,7 +39,6 @@
 
         <nav>
             <ul class="nav-list">
-                <!-- Updated First Navigation Link -->
                 <li>
                     <a href="#" class="nav-link" data-id="123" data-category="tech">
                         Home
@@ -40,6 +52,7 @@
     </header>
 
     <main class="container">
+
         <article>
             <h2 class="title">Article Title</h2>
 
@@ -51,11 +64,22 @@
             <h2>Form Section</h2>
 
             <form id="contact-form">
-                <input type="text" id="name" name="name" placeholder="Name">
-                <input type="email" id="email" name="email" placeholder="Email">
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Name">
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Email">
+
                 <button type="submit">Submit</button>
             </form>
         </section>
+
     </main>
 
     <!-- Task 10.3: Event Bubbling -->
