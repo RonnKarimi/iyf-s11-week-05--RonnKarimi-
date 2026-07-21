@@ -12,6 +12,11 @@
             padding: 20px;
             border: 1px solid #ccc;
         }
+
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
     </style>
 </head>
 <body>
@@ -52,6 +57,20 @@
             </form>
         </section>
     </main>
+
+    <!-- Task 10.3: Event Bubbling -->
+    <div id="grandparent" style="padding:20px; border:2px solid black; margin-top:20px;">
+        Grandparent
+
+        <div id="parent" style="padding:20px; border:2px solid blue; margin-top:10px;">
+            Parent
+
+            <div id="child" style="padding:20px; border:2px solid red; margin-top:10px;">
+                Child
+            </div>
+
+        </div>
+    </div>
 
     <footer>
         <p>&copy; 2026</p>
