@@ -140,3 +140,58 @@ const body = footer.parentElement;
 
 console.log("5. Body Element:");
 console.log(body);
+
+// ================================
+// Task 9.3 - Modifying Content
+// Exercise 1: Text Content
+// ================================
+
+const h1 = document.querySelector("h1");
+
+// Reading text
+console.log("textContent:", h1.textContent);
+console.log("innerText:", h1.innerText);
+
+// Modifying text
+h1.textContent = "Welcome to DOM Manipulation";
+
+// ================================
+// Exercise 2: HTML Content
+// ================================
+
+const article = document.querySelector("article");
+
+// Read the HTML inside the article
+console.log(article.innerHTML);
+
+// Replace the article content
+article.innerHTML = `
+    <h2>Updated Article</h2>
+    <p>This is new content.</p>
+`;
+
+// Display HTML as plain text (safe)
+const userInput = "<script>alert('hack!')</script>";
+article.textContent = userInput;
+
+// ================================
+// Exercise 3: Attributes
+// ================================
+
+const link = document.querySelector(".nav-link");
+
+// Get attribute
+console.log("href attribute:", link.getAttribute("href"));
+console.log("href property:", link.href);
+
+// Set a new attribute
+link.setAttribute("href", "https://example.com");
+
+// Another way
+link.href = "https://example.com";
+
+// Check if target exists
+console.log("Has target attribute:", link.hasAttribute("target"));
+
+// Remove target attribute
+link.removeAttribute("target");
