@@ -1,0 +1,25 @@
+body{
+
+    font-family:Arial, sans-serif;
+
+    padding:40px;
+
+    transition:0.5s;
+
+}
+
+.dark{
+
+    background:#222;
+
+    color:white;
+
+}
+
+button{
+
+    padding:10px 20px;
+
+    cursor:pointer;
+
+}
