@@ -11,21 +11,11 @@ const newParagraph = document.createElement("p");
 newParagraph.textContent = "This is a new paragraph!";
 newParagraph.className = "content highlight";
 
-// Add to the article
-article.appendChild(newParagraph);
-
 // Insert before the first paragraph
 const firstParagraph = article.querySelector("p");
 
 if (firstParagraph) {
     article.insertBefore(newParagraph, firstParagraph);
-
-    // Modern insertion methods
-    article.prepend(newParagraph);
-    article.append(newParagraph);
-
-    firstParagraph.before(newParagraph);
-    firstParagraph.after(newParagraph);
 }
 
 
@@ -34,16 +24,21 @@ if (firstParagraph) {
 // --------------------------------
 
 // Remove the footer
-footer.remove();
+// footer.remove();
 
 // Remove the last navigation item
 const lastLink = nav.querySelector("li:last-child");
-lastLink.parentElement.removeChild(lastLink);
+
+if (lastLink) {
+    lastLink.parentElement.removeChild(lastLink);
+}
 
 // Clear all children from the article
+/*
 while (article.firstChild) {
     article.removeChild(article.firstChild);
 }
+*/
 
 
 // --------------------------------
@@ -51,14 +46,17 @@ while (article.firstChild) {
 // --------------------------------
 
 // Clone the first navigation item
-const navItem = document.querySelector(".nav-link").parentElement;
+const navItem = document.querySelector(".nav-link");
 
-const clone = navItem.cloneNode(true);
+if (navItem) {
 
-clone.querySelector("a").textContent = "New Link";
+    const clone = navItem.parentElement.cloneNode(true);
 
-navList.appendChild(clone);
+    clone.querySelector("a").textContent = "New Link";
 
+    navList.appendChild(clone);
+
+}
 
 // --------------------------------
 // Build: Function to Add Navigation Items
@@ -132,12 +130,14 @@ button.addEventListener("mousemove", handler);
 
 // Keyboard events
 const nameInput = document.getElementById("name");
+const emailInput = document.getElementById("email");
+const contactForm = document.getElementById("contact-form");
 
 nameInput.addEventListener("keydown", handler);
 nameInput.addEventListener("keyup", handler);
 
 // Form events
-form.addEventListener("submit", function (event) {
+contactForm.addEventListener("submit", function (event) {
     event.preventDefault();
     console.log("Form Submitted!");
 });
@@ -212,25 +212,12 @@ resetBtn.addEventListener("click", () => {
 // Mouse Events
 document.addEventListener("click", function (event) {
 
-    // The element that was clicked
     console.log("Target:", event.target);
-
-    // The element the listener is attached to
     console.log("Current Target:", event.currentTarget);
-
-    // Event type
     console.log("Type:", event.type);
-
-    // Mouse position
     console.log("Position:", event.clientX, event.clientY);
 
-    // Prevent default action for links and forms
-    event.preventDefault();
-
-    // Stop event bubbling
-    event.stopPropagation();
 });
-
 
 // --------------------------------
 // Keyboard Events
@@ -291,15 +278,16 @@ document.addEventListener("keydown", function (event) {
 // Task 10.3 - Event Bubbling & Delegation
 // ================================
 
-
 // --------------------------------
 // Exercise 1: Understanding Bubbling
 // --------------------------------
 
+// Select the elements
 const grandparent = document.getElementById("grandparent");
 const parent = document.getElementById("parent");
 const child = document.getElementById("child");
 
+// Add click event listeners
 grandparent.addEventListener("click", function () {
     console.log("Grandparent clicked");
 });
@@ -312,33 +300,30 @@ child.addEventListener("click", function () {
     console.log("Child clicked");
 });
 
-
-// Clicking on Child logs:
+// Clicking the Child will log:
 // Child clicked
 // Parent clicked
 // Grandparent clicked
-
 
 
 // --------------------------------
 // Exercise 2: Event Delegation
 // --------------------------------
 
-function handleClick(event) {
-    console.log("List Item Clicked:", event.target.textContent);
-}
+// Select the navigation list
 
-// ONE event listener for the entire navigation list
+// Reuse navList from Task 9.2
+
+// One listener for all navigation items
 navList.addEventListener("click", function (event) {
 
-    // If a list item was clicked
-    if (event.target.matches("li")) {
-        handleClick(event);
-    }
-
-    // If a navigation link was clicked
+    // Check if a navigation link was clicked
     if (event.target.classList.contains("nav-link")) {
-        console.log("Navigation Link:", event.target.textContent);
+
+        event.preventDefault();
+
+        console.log("Navigation Link Clicked:", event.target.textContent);
+
     }
 
 });
@@ -352,26 +337,37 @@ navList.addEventListener("click", function (event) {
 const taskList = document.createElement("ul");
 
 taskList.innerHTML = `
-    <li class="task">Study JavaScript <button class="delete">Delete</button></li>
-    <li class="task">Practice DOM <button class="delete">Delete</button></li>
-    <li class="task">Complete Assignment <button class="delete">Delete</button></li>
+    <li class="task">
+        Study JavaScript
+        <button class="delete">Delete</button>
+    </li>
+
+    <li class="task">
+        Practice DOM
+        <button class="delete">Delete</button>
+    </li>
+
+    <li class="task">
+        Complete Assignment
+        <button class="delete">Delete</button>
+    </li>
 `;
 
+// Add the task list to the page
 document.body.appendChild(taskList);
 
-
-// ONE event listener handles everything
+// Use one event listener for the whole list
 taskList.addEventListener("click", function (event) {
 
-    // Delete task
+    // Delete a task
     if (event.target.classList.contains("delete")) {
 
         event.target.parentElement.remove();
-
         return;
+
     }
 
-    // Toggle completed task
+    // Mark task as completed
     if (event.target.classList.contains("task")) {
 
         event.target.classList.toggle("completed");
@@ -379,3 +375,127 @@ taskList.addEventListener("click", function (event) {
     }
 
 });
+
+// ================================
+// Task 10.4 - Form Handling
+// ================================
+
+// Select the form and its inputs
+
+// Reusing variables declared in Task 10.1
+
+// --------------------------------
+// Validate Name
+// --------------------------------
+
+nameInput.addEventListener("input", function () {
+
+    if (nameInput.value.trim().length < 2) {
+        showError(nameInput, "Name must be at least 2 characters.");
+    } else {
+        clearError(nameInput);
+    }
+
+});
+
+// --------------------------------
+// Validate Email
+// --------------------------------
+
+emailInput.addEventListener("input", function () {
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailPattern.test(emailInput.value.trim())) {
+        showError(emailInput, "Please enter a valid email.");
+    } else {
+        clearError(emailInput);
+    }
+
+});
+
+// --------------------------------
+// Handle Form Submission
+// --------------------------------
+
+contactForm.addEventListener("submit", function (event) {
+
+    event.preventDefault();
+
+    let valid = true;
+
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+
+    // Validate Name
+    if (name.length < 2) {
+        showError(nameInput, "Name must be at least 2 characters.");
+        valid = false;
+    } else {
+        clearError(nameInput);
+    }
+
+    // Validate Email
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailPattern.test(email)) {
+        showError(emailInput, "Please enter a valid email.");
+        valid = false;
+    } else {
+        clearError(emailInput);
+    }
+
+    // If valid
+    if (valid) {
+
+    console.log("Form Submitted Successfully");
+    console.log("Name:", name);
+    console.log("Email:", email);
+
+    alert("Form submitted successfully!");
+
+    contactForm.reset();
+    clearError(nameInput);
+    clearError(emailInput);
+
+}
+
+});
+
+// --------------------------------
+// Display Error Message
+// --------------------------------
+
+function showError(input, message) {
+
+    input.classList.add("error");
+
+    let error = input.nextElementSibling;
+
+    if (!error || !error.classList.contains("error-message")) {
+
+        error = document.createElement("small");
+        error.className = "error-message";
+
+        input.insertAdjacentElement("afterend", error);
+    }
+
+    error.textContent = message;
+
+}
+
+// --------------------------------
+// Remove Error Message
+// --------------------------------
+
+function clearError(input) {
+
+    input.classList.remove("error");
+
+    const error = input.nextElementSibling;
+
+    if (error && error.classList.contains("error-message")) {
+        error.remove();
+    }
+
+}
